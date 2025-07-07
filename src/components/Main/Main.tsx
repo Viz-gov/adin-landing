@@ -97,7 +97,7 @@ const Main: React.FC = () => {
   }, []);
 
   const handleChevronClick = () => {
-    const el = document.getElementById('home-content-section');
+    const el = document.getElementById('hits-section');
     if (el) el.scrollIntoView({ behavior: 'smooth' });
   };
 

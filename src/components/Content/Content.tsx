@@ -4,27 +4,27 @@ import styles from "./Content.module.css";
 
 const agents = [
   {
-    icon: "/agent3 icon.svg",
+    icon: "/agent1 icon.svg",
     name: "The Network Hunter",
     desc: "Find the crowd, fuel the movement."
   },
   {
-    icon: "/agent4 icon.svg",
+    icon: "/agent2 icon.svg",
     name: "The Tech Oracle",
     desc: "Spotting tomorrow's breakthroughs, today."
   },
   {
-    icon: "/agent5 icon.svg",
+    icon: "/agent3 icon.svg",
     name: "The Monopoly Maker",
     desc: "Backing the next market dominator."
   },
   {
-    icon: "/agent1 icon.svg",
+    icon: "/agent4 icon.svg",
     name: "The Unit Master",
     desc: "Numbers first, profits always."
   },
   {
-    icon: "/agent2 icon.svg",
+    icon: "/agent5 icon.svg",
     name: "The Value Guy",
     desc: "Seeking hidden gems for lasting growth."
   }
@@ -173,7 +173,7 @@ function InvestSection() {
   );
 }
 
-const rotatingHeaders = [
+const hits = [
   {
     text: (
       <>
@@ -188,21 +188,22 @@ const rotatingHeaders = [
   {
     text: (
       <>
-        <span style={{ color: '#000' }}>Investors (Human LPs)</span>
-        <span style={{ color: '#86868b' }}>{' vote on proposed deals, guiding decision-making through collective insights, and over time enabling the fine tuning of models.'}</span>
-      </>
-    ),
-  },
-  {
-    text: (
-      <>
         <span style={{ color: '#86868b' }}>{'Our team writes checks from '}</span>
         <span style={{ color: '#000' }}>$500k to $2 million</span>
         <span style={{ color: '#86868b' }}>{', partnering with visionary builders in connectivity, compute, crypto, and creative economies.'}</span>
       </>
     ),
   },
+  {
+    text: (
+      <>
+        <span style={{ color: '#000' }}>Investors (Human LPs)</span>
+        <span style={{ color: '#86868b' }}>{' vote on proposed deals, guiding decision-making through collective insights, and over time enabling the fine tuning of models.'}</span>
+      </>
+    ),
+  },
 ];
+
 
 function RotatingHeader() {
   const [index, setIndex] = useState(0);
@@ -217,7 +218,7 @@ function RotatingHeader() {
     intervalRef.current = setInterval(() => {
       setProgress((prev) => {
         if (prev + progressInterval >= duration) {
-          setIndex((i) => (i + 1) % rotatingHeaders.length);
+          setIndex((i) => (i + 1) % hits.length);
           return 0;
         }
         return prev + progressInterval;
@@ -254,11 +255,16 @@ function RotatingHeader() {
       color: '#86868b',
       textAlign: 'center',
       letterSpacing: 0,
-      marginBottom: 32,
       transition: 'opacity 0.5s',
       minHeight: 80,
     }}>
-      <p style={{ margin: 0, padding: 0, lineHeight: '40px' }}>{rotatingHeaders[index].text}</p>
+      <p
+        key={index}                         /* force remount on index change */
+        className={styles.fadeInLeft}       /* new CSS animation */
+        style={{ margin: 0, padding: 0, lineHeight: '40px' }}
+      >
+        {hits[index].text}
+      </p>
       <div style={{ display: 'flex', flexDirection: 'row', gap: 16, alignItems: 'center', justifyContent: 'center', marginTop: 24 }}>
         {/* Play Button */}
         <button
@@ -286,7 +292,7 @@ function RotatingHeader() {
             <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M2 2L16 9L2 16V2Z" fill="#A97DF5"/></svg>
           )}
         </button>
-        {/* Progress Bar */}
+        {/* Progress Bar with moving dots */}
         <div style={{
           background: '#f3eafd',
           borderRadius: 40,
@@ -296,12 +302,38 @@ function RotatingHeader() {
           minWidth: 120,
           minHeight: 20,
         }}>
-          <div style={{ position: 'relative', width: 56, height: 8, background: '#e1d1fa', borderRadius: 20, overflow: 'hidden', marginRight: 12 }}>
-            <div style={{ position: 'absolute', left: 0, top: 0, height: 8, width: `${(progress / duration) * 56}px`, background: '#a97df5', borderRadius: 20, transition: 'width 0.1s' }} />
+          <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 12 }}>
+            {/* ADIN: index 0: [progress bar, dot, dot] */}
+            {index === 0 && (
+              <>
+                <div style={{ position: 'relative', width: 56, height: 8, background: '#e1d1fa', borderRadius: 20, overflow: 'hidden' }}>
+                  <div style={{ position: 'absolute', left: 0, top: 0, height: 8, width: `${(progress / duration) * 56}px`, background: '#a97df5', borderRadius: 20, transition: 'width 0.1s' }} />
+                </div>
+                <div style={{ width: 8, height: 8, background: '#e1d1fa', borderRadius: 20 }} />
+                <div style={{ width: 8, height: 8, background: '#e1d1fa', borderRadius: 20 }} />
+              </>
+            )}
+            {/* Our Team: index 1: [dot, dot, progress bar] */}
+            {index === 1 && (
+              <>
+                <div style={{ width: 8, height: 8, background: '#e1d1fa', borderRadius: 20 }} />
+                <div style={{ width: 8, height: 8, background: '#e1d1fa', borderRadius: 20 }} />
+                <div style={{ position: 'relative', width: 56, height: 8, background: '#e1d1fa', borderRadius: 20, overflow: 'hidden' }}>
+                  <div style={{ position: 'absolute', left: 0, top: 0, height: 8, width: `${(progress / duration) * 56}px`, background: '#a97df5', borderRadius: 20, transition: 'width 0.1s' }} />
+                </div>
+              </>
+            )}
+            {/* Investors: index 2: [dot, progress bar, dot] */}
+            {index === 2 && (
+              <>
+                <div style={{ width: 8, height: 8, background: '#e1d1fa', borderRadius: 20 }} />
+                <div style={{ position: 'relative', width: 56, height: 8, background: '#e1d1fa', borderRadius: 20, overflow: 'hidden' }}>
+                  <div style={{ position: 'absolute', left: 0, top: 0, height: 8, width: `${(progress / duration) * 56}px`, background: '#a97df5', borderRadius: 20, transition: 'width 0.1s' }} />
+                </div>
+                <div style={{ width: 8, height: 8, background: '#e1d1fa', borderRadius: 20 }} />
+              </>
+            )}
           </div>
-          {/* Dots */}
-          <div style={{ width: 8, height: 8, background: '#e1d1fa', borderRadius: 20, marginRight: 4 }} />
-          <div style={{ width: 8, height: 8, background: '#e1d1fa', borderRadius: 20 }} />
         </div>
       </div>
     </div>
@@ -312,9 +344,10 @@ const Content: React.FC = () => {
   const mainContentRef = useRef<HTMLDivElement>(null);
   return (
   <section className={styles.contentSection}>
-      <div style={{ height: 60 }} />
-      <RotatingHeader />
-      <div style={{ height: 160 }} />
+    <div id="hits-section" />
+    <div style={{ height: 60 }} />
+    <RotatingHeader />
+    <div style={{ height: 160 }} />
     <div className={styles.dealMakerContainer}>
       <div className={styles.dealMakerTextContainer}>
         <div className={styles.dealMakerHeadline}>
