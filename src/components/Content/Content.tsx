@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styles from "./Content.module.css";
 
 const agents = [
@@ -148,140 +148,170 @@ function FaqSection() {
   );
 }
 
-const Content: React.FC = () => (
-  <section className={styles.contentSection}>
-    <div className={styles.dealMakerContainer}>
-      <div className={styles.dealMakerTextContainer}>
-        <div className={styles.dealMakerHeadline}>
-          <p>AI speed.<br />Human judgment.</p>
+function InvestSection() {
+  return (
+    <div className={styles.investSection}>
+      <div className={styles.investHeadline}>Invest with ADIN.</div>
+      <div className={styles.investContentCol}>
+        <div className={styles.investCard}>
+          <div className={styles.investCardInner}>
+            <span className={styles.investEarlyAccess}>Early access for Tribute Labs Members</span>
+            <span className={styles.investButtonWrap}>
+              <button className={styles.investButton}>
+                <span className={styles.investButtonText}>Get Started &rarr;</span>
+              </button>
+            </span>
+          </div>
+          <div className={styles.investCardBorder} />
         </div>
-        <div className={styles.dealMakerSubtext}>
-          <p>
-            ADIN pairs expert operators with intelligent agents to handle the heavy lifting of venture workflows. Faster analysis, tighter feedback loops, and more space for high-conviction bets.
-          </p>
+        <div className={styles.investWaitlistText}>
+          <span className={styles.investWaitlistGray}>Not a Tribute Labs Member?</span>
+          <span className={styles.investWaitlistLink}> Join the Waitlist &rarr;</span>
         </div>
       </div>
     </div>
-    <div className={styles.cardsRow}>
-      {/* Left Card: Powered by AI Agents */}
-      <div className={styles.leftCard}>
-        <div className={styles.leftCardTitleBlock}>
-          <span className={styles.leftCardTitlePowered}>Powered by</span>
-          <span className={styles.leftCardTitleAgents}>AI Agents</span>
+  );
+}
+
+const Content: React.FC = () => {
+  const mainContentRef = useRef<HTMLDivElement>(null);
+  return (
+    <section className={styles.contentSection}>
+      <div className={styles.dealMakerContainer}>
+        <div className={styles.dealMakerTextContainer}>
+          <div className={styles.dealMakerHeadline}>
+            <p>AI speed.<br />Human judgment.</p>
+          </div>
+          <div className={styles.dealMakerSubtext}>
+            <p>
+              ADIN pairs expert operators with intelligent agents to handle the heavy lifting of venture workflows. Faster analysis, tighter feedback loops, and more space for high-conviction bets.
+            </p>
+          </div>
         </div>
-        <div className={styles.leftCardAgents}>
-          {agents.map((agent, i) => (
-            <React.Fragment key={i}>
-              <div className={styles.agentRow}>
-                <img src={agent.icon} alt={agent.name} className={styles.agentIcon} />
-                <div className={styles.agentTextBlock}>
-                  <div className={styles.agentName}>{agent.name}</div>
-                  <div className={styles.agentDesc}>{agent.desc}</div>
+      </div>
+      <div ref={mainContentRef} id="home-content-section" className={styles.cardsRow}>
+        {/* Left Card: Powered by AI Agents */}
+        <div className={styles.leftCard}>
+          <div className={styles.leftCardTitleBlock}>
+            <span className={styles.leftCardTitlePowered}>Powered by</span>
+            <span className={styles.leftCardTitleAgents}>AI Agents</span>
+          </div>
+          <div className={styles.leftCardAgents}>
+            {agents.map((agent, i) => (
+              <React.Fragment key={i}>
+                <div className={styles.agentRow}>
+                  <img src={agent.icon} alt={agent.name} className={styles.agentIcon} />
+                  <div className={styles.agentTextBlock}>
+                    <div className={styles.agentName}>{agent.name}</div>
+                    <div className={styles.agentDesc}>{agent.desc}</div>
+                  </div>
+                </div>
+                {i < agents.length - 1 && (
+                  <div className={styles.agentDivider} />
+                )}
+              </React.Fragment>
+            ))}
+          </div>
+        </div>
+        {/* Right Card: Profile Card Carousel */}
+        <div className={styles.rightCard}>
+          <div className={styles.rightCardContentWrapper}>
+            <div className={styles.rightCardTitleBlock}>
+              <span className={styles.rightCardTitleSupported}>Supported by</span>
+              <span className={styles.rightCardTitleHumans}>Humans</span>
+            </div>
+            <div className={styles.rightCardImageArea}>
+              <ProfileCarousel />
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* Tribute Labs Section - 24px spacing above */}
+      <div className={styles.tributeSection}>
+        <div className={styles.tributeInnerRow}>
+          <div className={styles.tributeCard}>
+            <div className={styles.tributeCardBorder} />
+            <div className={styles.tributeCardContent}>
+              <div className={styles.tributeLogoBox}>
+                <div className={styles.tributeLogoIcon}>
+                  <svg width="21" height="24" viewBox="0 0 21 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g>
+                      <path d="M0 18L10.5 12V0L0 6V18Z" fill="#fff"/>
+                      <path d="M10.5 12L0 6L10.5 0L21 6L10.5 12Z" fill="#fff"/>
+                    </g>
+                  </svg>
                 </div>
               </div>
-              {i < agents.length - 1 && (
-                <div className={styles.agentDivider} />
-              )}
-            </React.Fragment>
-          ))}
-        </div>
-      </div>
-      {/* Right Card: Profile Card Carousel */}
-      <div className={styles.rightCard}>
-        <div className={styles.rightCardContentWrapper}>
-          <div className={styles.rightCardTitleBlock}>
-            <span className={styles.rightCardTitleSupported}>Supported by</span>
-            <span className={styles.rightCardTitleHumans}>Humans</span>
-          </div>
-          <div className={styles.rightCardImageArea}>
-            <ProfileCarousel />
-          </div>
-        </div>
-      </div>
-    </div>
-    {/* Tribute Labs Section - 24px spacing above */}
-    <div className={styles.tributeSection}>
-      <div className={styles.tributeInnerRow}>
-        <div className={styles.tributeCard}>
-          <div className={styles.tributeCardBorder} />
-          <div className={styles.tributeCardContent}>
-            <div className={styles.tributeLogoBox}>
-              <div className={styles.tributeLogoIcon}>
-                <svg width="21" height="24" viewBox="0 0 21 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <g>
-                    <path d="M0 18L10.5 12V0L0 6V18Z" fill="#fff"/>
-                    <path d="M10.5 12L0 6L10.5 0L21 6L10.5 12Z" fill="#fff"/>
-                  </g>
-                </svg>
+              <div className={styles.tributeTextBlock}>
+                <div className={styles.tributeTitle}>A Tribute Labs Project</div>
+                <div className={styles.tributeLocation}>NYC / LDN / CHI</div>
               </div>
             </div>
-            <div className={styles.tributeTextBlock}>
-              <div className={styles.tributeTitle}>A Tribute Labs Project</div>
-              <div className={styles.tributeLocation}>NYC / LDN / CHI</div>
-            </div>
           </div>
-        </div>
-        <div className={styles.tributeDescription}>
-          Tribute Labs has supported over 30 communities, empowering more than 300 projects through technical guidance, infrastructure, and long-term partnership. Our mission is to help communities thrive by providing the tools and support they need to scale with confidence.
+          <div className={styles.tributeDescription}>
+            Tribute Labs has supported over 30 communities, empowering more than 300 projects through technical guidance, infrastructure, and long-term partnership. Our mission is to help communities thrive by providing the tools and support they need to scale with confidence.
+          </div>
         </div>
       </div>
-    </div>
-    {/* Figma node 1:10750 section - 160px spacing above */}
-    <div className={styles.earlySection}>
-      <div className={styles.earlyInnerCol}>
-        <div className={styles.earlyHeadlineRow}>
-          <div className={styles.earlyHeadlineBlock}>
-            <div className={styles.earlyHeadline}>
-              Only Early.<br />Always Human.
-            </div>
-            <div className={styles.earlySubtext}>
-              ADIN backs bold ideas at the beginning, where conviction matters most. We invest exclusively at the earliest stages, combining operator insight and intelligent systems to move faster, with greater focus.
-            </div>
-          </div>
-        </div>
-        <div className={styles.earlyStepsGrid}>
-          {/* Row 1: Pre-Seed, Seed */}
-          <div className={styles.earlyStepGridItem}>
-            <span className={styles.earlyStepCellLineWrap}>
-              <span className={styles.earlyStepCellLineBlack}></span>
-              <span className={styles.earlyStepCellLinePurple} style={{ top: 'calc(50% - 14px)' }}></span>
-            </span>
-            <div className={styles.earlyStepContent}>
-              <div className={styles.earlyStepLabel}>Pre-Seed</div>
-              <div className={styles.earlyStepTitle}>Backed by Belief</div>
-              <div className={styles.earlyStepDesc}>At pre-seed, conviction outweighs traction. ADIN provides governance capital and strategic support to founders with deep alignment and long-term thinking.</div>
+      {/* Figma node 1:10750 section - 160px spacing above */}
+      <div className={styles.earlySection}>
+        <div className={styles.earlyInnerCol}>
+          <div className={styles.earlyHeadlineRow}>
+            <div className={styles.earlyHeadlineBlock}>
+              <div className={styles.earlyHeadline}>
+                Only Early.<br />Always Human.
+              </div>
+              <div className={styles.earlySubtext}>
+                ADIN backs bold ideas at the beginning, where conviction matters most. We invest exclusively at the earliest stages, combining operator insight and intelligent systems to move faster, with greater focus.
+              </div>
             </div>
           </div>
-          <div className={styles.earlyStepGridItem}>
-            <span className={styles.earlyStepCellLineWrap}>
-              <span className={styles.earlyStepCellLineBlack}></span>
-              <span className={styles.earlyStepCellLineGreen} style={{ top: 'calc(50% - 14px)' }}></span>
-            </span>
-            <div className={styles.earlyStepContent}>
-              <div className={styles.earlyStepLabel}>Seed</div>
-              <div className={styles.earlyStepTitle}>Culture-First Capital</div>
-              <div className={styles.earlyStepDesc}>Seed-stage founders shape ADIN's future. Our community brings cultural context and dealflow, helping us invest in projects that align with our collective values.</div>
+          <div className={styles.earlyStepsGrid}>
+            {/* Row 1: Pre-Seed, Seed */}
+            <div className={styles.earlyStepGridItem}>
+              <span className={styles.earlyStepCellLineWrap}>
+                <span className={styles.earlyStepCellLineBlack}></span>
+                <span className={styles.earlyStepCellLinePurple} style={{ top: 'calc(50% - 14px)' }}></span>
+              </span>
+              <div className={styles.earlyStepContent}>
+                <div className={styles.earlyStepLabel}>Pre-Seed</div>
+                <div className={styles.earlyStepTitle}>Backed by Belief</div>
+                <div className={styles.earlyStepDesc}>At pre-seed, conviction outweighs traction. ADIN provides governance capital and strategic support to founders with deep alignment and long-term thinking.</div>
+              </div>
             </div>
-          </div>
-          {/* Row 2: A Round, empty */}
-          <div className={styles.earlyStepGridItem}>
-            <span className={styles.earlyStepCellLineWrap}>
-              <span className={styles.earlyStepCellLineBlack}></span>
-              <span className={styles.earlyStepCellLinePurple} style={{ top: 'calc(50% - 14px)' }}></span>
-            </span>
-            <div className={styles.earlyStepContent}>
-              <div className={styles.earlyStepLabel}>A Round</div>
-              <div className={styles.earlyStepTitle}>Early, Not Late</div>
-              <div className={styles.earlyStepDesc}>We don't chase momentum—we help create it. ADIN's A-round capital supports early traction and sharp execution, before the noise of growth-stage hype.</div>
+            <div className={styles.earlyStepGridItem}>
+              <span className={styles.earlyStepCellLineWrap}>
+                <span className={styles.earlyStepCellLineBlack}></span>
+                <span className={styles.earlyStepCellLineGreen} style={{ top: 'calc(50% - 14px)' }}></span>
+              </span>
+              <div className={styles.earlyStepContent}>
+                <div className={styles.earlyStepLabel}>Seed</div>
+                <div className={styles.earlyStepTitle}>Culture-First Capital</div>
+                <div className={styles.earlyStepDesc}>Seed-stage founders shape ADIN's future. Our community brings cultural context and dealflow, helping us invest in projects that align with our collective values.</div>
+              </div>
             </div>
+            {/* Row 2: A Round, empty */}
+            <div className={styles.earlyStepGridItem}>
+              <span className={styles.earlyStepCellLineWrap}>
+                <span className={styles.earlyStepCellLineBlack}></span>
+                <span className={styles.earlyStepCellLinePurple} style={{ top: 'calc(50% - 14px)' }}></span>
+              </span>
+              <div className={styles.earlyStepContent}>
+                <div className={styles.earlyStepLabel}>A Round</div>
+                <div className={styles.earlyStepTitle}>Early, Not Late</div>
+                <div className={styles.earlyStepDesc}>We don't chase momentum—we help create it. ADIN's A-round capital supports early traction and sharp execution, before the noise of growth-stage hype.</div>
+              </div>
+            </div>
+            <div className={styles.earlyStepGridItem}></div>
           </div>
-          <div className={styles.earlyStepGridItem}></div>
         </div>
       </div>
-    </div>
-    {/* FAQ Section - 160px spacing above */}
-    <FaqSection />
-  </section>
-);
+      {/* FAQ Section - 160px spacing above */}
+      <FaqSection />
+      {/* Invest Section - 160px spacing above */}
+      <InvestSection />
+    </section>
+  );
+};
 
 export default Content; 
