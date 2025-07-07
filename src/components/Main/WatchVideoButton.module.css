@@ -1,0 +1,115 @@
+.button {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+  background: #fcf0d1;
+  border-radius: 12px;
+  padding: 4px 16px 4px 4px;
+  overflow: hidden;
+  width: fit-content;
+}
+
+.iconSection {
+  background: #ffd800;
+  border-radius: 8px;
+  width: 64px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  border: 0.2px solid #e0e0e0;
+}
+
+.smileyWrapper {
+  position: relative;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.face {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  left: 0;
+  top: 0;
+}
+
+.mouth {
+  position: absolute;
+  width: 27px;
+  height: 8px;
+  left: 2.5px;
+  top: 16px;
+}
+
+.rightEye {
+  position: absolute;
+  width: 6px;
+  height: 5px;
+  left: 20px;
+  top: 8px;
+}
+
+.leftEye {
+  position: absolute;
+  width: 6px;
+  height: 5px;
+  left: 6px;
+  top: 8px;
+}
+
+.rightPupil {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  left: 22px;
+  top: 9px;
+}
+
+.leftPupil {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  left: 8px;
+  top: 10px;
+}
+
+.playIconWrapper {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.playIcon {
+  width: 24px;
+  height: 24px;
+}
+
+.textSection {
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 20px;
+  background: linear-gradient(90deg, #EEE, #EEE);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.smileyImg {
+  width: 32px;
+  height: 32px;
+  display: block;
+  margin: 0 auto;
+} 

@@ -88,7 +88,6 @@
 
 .navLink:hover .icon img, .navLink:focus .icon img {
   filter: none;
-  color: #a97df5;
 }
 
 .icon {

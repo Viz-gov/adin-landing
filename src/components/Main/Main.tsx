@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import styles from "./Main.module.css";
+import WatchVideoButton from "./WatchVideoButton";
 
 const words = [
   { text: "biotech", color: "#a97df5" },
@@ -31,14 +32,12 @@ const Main: React.FC = () => {
         Investing in early<br />stage ideas building for<br />
         <span style={{ display: 'inline-block' }}>
           <span
-            key={index}
             className={`${styles.highlight} ${fade ? styles.fadeOut : styles.fadeIn}`}
             style={{ color: words[index].color, display: 'inline-block' }}
           >
             {words[index].text}
           </span>
           <span
-            key={`dot-${index}`}
             className={fade ? styles.fadeOut : styles.fadeIn}
             style={{ display: 'inline-block' }}
           >
@@ -49,6 +48,7 @@ const Main: React.FC = () => {
       <p className={styles.heroSubtext}>
         ADIN backs teams building the future of the internet focusing on Seed Rounds to Series-A.
       </p>
+      <WatchVideoButton />
     </main>
   );
 };
