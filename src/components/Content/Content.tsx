@@ -3,29 +3,29 @@ import styles from "./Content.module.css";
 
 const agents = [
   {
-    icon: "/agent1 icon.svg",
-    name: "AI Agents",
-    desc: "Automate research, diligence, and reporting."
-  },
-  {
-    icon: "/agent2 icon.svg",
-    name: "Human Operators",
-    desc: "Expert oversight and judgment."
-  },
-  {
     icon: "/agent3 icon.svg",
-    name: "Network Hunter",
+    name: "The Network Hunter",
     desc: "Find the crowd, fuel the movement."
   },
   {
     icon: "/agent4 icon.svg",
-    name: "Tech Oracle",
+    name: "The Tech Oracle",
     desc: "Spotting tomorrow's breakthroughs, today."
   },
   {
     icon: "/agent5 icon.svg",
-    name: "Monopoly Maker",
+    name: "The Monopoly Maker",
     desc: "Backing the next market dominator."
+  },
+  {
+    icon: "/agent1 icon.svg",
+    name: "The Unit Master",
+    desc: "Numbers first, profits always."
+  },
+  {
+    icon: "/agent2 icon.svg",
+    name: "The Value Guy",
+    desc: "Seeking hidden gems for lasting growth."
   }
 ];
 
@@ -46,16 +46,24 @@ const Content: React.FC = () => (
     <div className={styles.cardsRow}>
       {/* Left Card: Powered by AI Agents */}
       <div className={styles.leftCard}>
-        <div className={styles.leftCardTitle}>Powered by AI agents</div>
+        <div className={styles.leftCardTitleBlock}>
+          <span className={styles.leftCardTitlePowered}>Powered by</span>
+          <span className={styles.leftCardTitleAgents}>AI Agents</span>
+        </div>
         <div className={styles.leftCardAgents}>
           {agents.map((agent, i) => (
-            <div className={styles.agentRow} key={i}>
-              <img src={agent.icon} alt={agent.name} className={styles.agentIcon} />
-              <div className={styles.agentTextBlock}>
-                <div className={styles.agentName}>{agent.name}</div>
-                <div className={styles.agentDesc}>{agent.desc}</div>
+            <React.Fragment key={i}>
+              <div className={styles.agentRow}>
+                <img src={agent.icon} alt={agent.name} className={styles.agentIcon} />
+                <div className={styles.agentTextBlock}>
+                  <div className={styles.agentName}>{agent.name}</div>
+                  <div className={styles.agentDesc}>{agent.desc}</div>
+                </div>
               </div>
-            </div>
+              {i < agents.length - 1 && (
+                <div className={styles.agentDivider} />
+              )}
+            </React.Fragment>
           ))}
         </div>
       </div>

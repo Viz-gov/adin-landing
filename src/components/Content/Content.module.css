@@ -123,21 +123,49 @@
   width: 480px;
   min-height: 520px;
   padding: 48px 40px 48px 40px;
-  gap: 32px;
+  gap: 16px;
 }
 
-.leftCardTitle {
-  font-family: 'Inter', sans-serif;
-  font-size: 36px;
-  font-weight: 700;
-  color: #000;
+.leftCardTitleBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
   margin-bottom: 16px;
+  gap: 0px;
+}
+
+.leftCardTitlePowered {
+  font-family: 'Inter', sans-serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: #000000;
+  line-height: 28px;
+  letter-spacing: 0;
+  margin-bottom: 0px;
+}
+
+.leftCardTitleAgents {
+  font-family: 'Inter', sans-serif;
+  font-size: 32px;
+  font-weight: 600;
+  color: #000000;
+  line-height: 40px;
+  letter-spacing: 0;
+  margin-top: 0px;
+}
+
+.agentDivider {
+  width: 100%;
+  height: 1px;
+  background: #F3EAFD;
+  border: none;
+  margin: 8px 0 8px 0;
 }
 
 .leftCardAgents {
   display: flex;
   flex-direction: column;
-  gap: 28px;
+  gap: 14px;
   width: 100%;
 }
 
@@ -145,7 +173,7 @@
   display: flex;
   flex-direction: row;
   align-items: flex-start;
-  gap: 20px;
+  gap: 14px;
 }
 
 .agentIcon {
@@ -157,7 +185,7 @@
 .agentTextBlock {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 2px;
 }
 
 .agentName {
