@@ -109,12 +109,29 @@ const faqAnswer = `ADIN is an AI-first, community-powered venture DAO that combi
 
 function FaqSection() {
   const [open, setOpen] = useState<number | null>(null);
+  const [activeTab, setActiveTab] = useState<'General' | 'Pricing'>('General');
   return (
     <div className={styles.faqSection}>
       <div className={styles.faqInnerCol}>
         <div className={styles.faqHeadlineBlock}>
           <div className={styles.faqHeadline}>Frequently<br />asked questions.</div>
           <div className={styles.faqSubtext}>Here is a collection of what is asked most about ADIN.</div>
+          <div className={styles.faqTabsContainer}>
+            <button
+              className={`${styles.faqTab} ${activeTab === 'General' ? styles.faqTabActive : styles.faqTabInactive}`}
+              onClick={() => setActiveTab('General')}
+              type="button"
+            >
+              General
+            </button>
+            <button
+              className={`${styles.faqTab} ${activeTab === 'Pricing' ? styles.faqTabActive : styles.faqTabInactive}`}
+              onClick={() => setActiveTab('Pricing')}
+              type="button"
+            >
+              Pricing
+            </button>
+          </div>
         </div>
         <div className={styles.faqList}>
           {faqQuestions.map((q, i) => (
@@ -344,10 +361,9 @@ const Content: React.FC = () => {
   const mainContentRef = useRef<HTMLDivElement>(null);
   return (
   <section className={styles.contentSection}>
-    <div id="hits-section" />
-    <div style={{ height: 60 }} />
-    <RotatingHeader />
-    <div style={{ height: 160 }} />
+      <div style={{ height: 60 }} />
+      <RotatingHeader />
+      <div style={{ height: 160 }} />
     <div className={styles.dealMakerContainer}>
       <div className={styles.dealMakerTextContainer}>
         <div className={styles.dealMakerHeadline}>

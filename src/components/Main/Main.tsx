@@ -138,7 +138,7 @@ const Main: React.FC = () => {
         <br></br>
         <br></br>
         <ChevronDown onClick={handleChevronClick} />
-        <GradientBackground />
+        <div style={{ height: 160 }} />
       </main>
     </>
   );

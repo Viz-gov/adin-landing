@@ -1,31 +1,64 @@
 .footerSection {
   position: relative;
-  width: 100vw;
-  min-width: 100vw;
+  min-width: 100%;
+  width: 100%;
+  min-width: unset;
   left: 0;
   right: 0;
-  background: #fff;
-  overflow: hidden;
+  background: white;
+  
+  overflow: visible;    /* allow any child (like a gradient) to overflow */
   padding: 0;
   margin: 0;
   border-top: 1px solid #f3eafd;
+  z-index:1;
 }
+/* Gradient peek, flipped left→right & upside-down */
+.footerSection::before {
+  content: "";
+  position: absolute;
+  top: -60px;                 /* only 60px of the 190px-high bands peek down */
+  left: 50%;
+  transform: translateX(-50%) scaleX(-1) scaleY(-1);
+  width: 1794px;
+  height: 190px;
+  pointer-events: none;
+  z-index: -1;                /* behind all footer content */
+  /* now draw your four color bands stacked vertically */
+  background:
+    /* red */   radial-gradient(circle at 30% 70%, #f3655b 30%, transparent 70%),
+    /* yellow*/ radial-gradient(circle at 50% 50%, #ffbf66 30%, transparent 70%),
+    /* green */ radial-gradient(circle at 70% 30%, #49c17a 30%, transparent 70%),
+    /* purple*/ radial-gradient(circle at 50% 70%, #a97df5 30%, transparent 70%);
+  background-repeat: no-repeat;
+  /* tweak positions of each band */
+  background-size:
+    710px 190px,
+    1076px 190px,
+    1352px 190px,
+    1794px 190px;
+  background-position:
+    calc(50% - 100px)   top,
+    calc(50% + 83px)    top,
+    calc(50% + 221px)   top,
+    calc(50% - 300px)   top; /* purple shifted left another 100px */
+  filter: blur(68.6px);
+}
+
 .footerContentWrap {
-  position: relative;
-  z-index: 1;
-  width: 100vw;
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  min-height: 238px;
-  padding-top: 0px;
-  padding-bottom: 48px;
-}
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    min-height: 238px;
+    padding: 0;
+  }
+  
 .footerLinksContainer {
   background: #fff;
   box-sizing: border-box;
   width: 100%;
-  max-width: 1440px;
+  max-width: 1794px;
   min-height: 238px;
   display: flex;
   flex-direction: row;

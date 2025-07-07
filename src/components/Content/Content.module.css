@@ -9,12 +9,12 @@
   align-items: stretch;
   padding-left: 160px;
   padding-right: 160px;
-  box-sizing: border-box; /* ensure padding doesn’t blow out your width */
+  box-sizing: border-box; /* ensure padding doesn't blow out your width */
   overflow-x: hidden;
 }
 .dealMakerContainer {
   width: 100%;
-  /* keep max-width if you like, but don’t center it */
+  /* keep max-width if you like, but don't center it */
   max-width: 1440px;
   margin: 0;              /* flush left inside the 160px gutter */
   display: flex;
@@ -924,7 +924,7 @@
 
 .investSection {
   margin-top: 160px;
-  margin-bottom: 160px;
+  margin-bottom: 254px;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -999,11 +999,10 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: transform 0.2s cubic-bezier(.77,0,.18,1), box-shadow 0.2s;
+  transition: box-shadow 0.2s;
   box-shadow: 0 2px 8px 0 rgba(169,125,245,0.10);
 }
 .investButton:hover {
-  transform: scale(1.08);
   box-shadow: 0 4px 24px 0 rgba(169,125,245,0.18);
 }
 
@@ -1021,7 +1020,7 @@
   top: 4px;
   bottom: 4px;
   left: 8px;
-  right: 0;
+  right: 8px;
   border: 1px solid #f3eafd;
   border-radius: 32px;
   pointer-events: none;
@@ -1107,4 +1106,47 @@
     padding-left: 32px;
     padding-right: 32px;
   }
+}
+
+/* FAQ Tabs */
+.faqTabsContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  align-items: center;
+  justify-content: flex-start;
+  margin-top: 16px;
+  margin-bottom: 0;
+}
+.faqTab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  border-radius: 44px;
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 20px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border 0.2s, transform 0.15s cubic-bezier(.77,0,.18,1);
+  border: none;
+  outline: none;
+  min-width: 80px;
+}
+.faqTab:hover {
+  z-index: 1;
+}
+.faqTabActive {
+  background: #A97DF5;
+  color: #fff;
+  border: none;
+}
+.faqTabInactive {
+  background: #fff;
+  color: #A97DF5;
+  border: 1px solid #E1D1FA;
+}
+.faqTabInactive:hover {
+  background: #F3EAFD;
 }
