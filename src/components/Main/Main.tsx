@@ -12,63 +12,74 @@ const words = [
   { text: "medical", color: "#FFD17A" },
 ];
 
-const GradientBackground = () => (
-  <div style={{
-    position: 'relative',
-    width: '100%',
-    height: '190px',
-    marginTop: 64,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'flex-end',
-    zIndex: 1,
-    filter: 'blur(68.5941px)',
-    transform: 'scaleX(-1)',          // ← flip horizontally
-    transformOrigin: 'center center'  // ← ensure it flips around the center
-
-  }}>
+const GradientBackground = () => {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth <= 700);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+  const bandWidth = isMobile ? '100vw' : '1794px';
+  const bandBlur = isMobile ? '40px' : '68.5941px';
+  return (
     <div style={{
-      position: 'absolute',
-      left: '50%',
-      top: 0,
-      width: '1794px',
-      height: '189.953px',
-      background: '#a97df5',
-      borderRadius: '42.2118px',
-      transform: 'translateX(-50%)',
-    }} />
-    <div style={{
-      position: 'absolute',
-      top: 0,
-      left: 'calc(50% + 220.952px)',
-      width: '1352.1px',
-      height: '189.953px',
-      background: '#49c17a',
-      borderRadius: '42.2118px',
-      transform: 'translateX(-50%)',
-    }} />
-    <div style={{
-      position: 'absolute',
-      top: 0,
-      left: 'calc(50% + 83.1044px)',
-      width: '1076.4px',
-      height: '189.953px',
-      background: '#ffbf66',
-      borderRadius: '42.2118px',
-      transform: 'translateX(-50%)',
-    }} />
-    <div style={{
-      position: 'absolute',
-      top: 0,
-      left: 'calc(50% - 100.253px)',
-      width: '709.685px',
-      height: '189.953px',
-      background: '#f3655b',
-      borderRadius: '42.2118px',
-      transform: 'translateX(-50%)',
-    }} />
-  </div>
-);
+      position: 'relative',
+      width: '100%',
+      height: '190px',
+      marginTop: 64,
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'flex-end',
+      zIndex: 1,
+      filter: `blur(${bandBlur})`,
+      overflow: 'hidden',
+      transform: 'scaleX(-1)',
+      transformOrigin: 'center center'
+    }}>
+      <div style={{
+        position: 'absolute',
+        left: '50%',
+        top: 0,
+        width: bandWidth,
+        height: '189.953px',
+        background: '#a97df5',
+        borderRadius: '42.2118px',
+        transform: 'translateX(-50%)',
+      }} />
+      <div style={{
+        position: 'absolute',
+        top: 0,
+        left: isMobile ? '50%' : 'calc(50% + 220.952px)',
+        width: bandWidth,
+        height: '189.953px',
+        background: '#49c17a',
+        borderRadius: '42.2118px',
+        transform: 'translateX(-50%)',
+      }} />
+      <div style={{
+        position: 'absolute',
+        top: 0,
+        left: isMobile ? '50%' : 'calc(50% + 83.1044px)',
+        width: bandWidth,
+        height: '189.953px',
+        background: '#ffbf66',
+        borderRadius: '42.2118px',
+        transform: 'translateX(-50%)',
+      }} />
+      <div style={{
+        position: 'absolute',
+        top: 0,
+        left: isMobile ? '50%' : 'calc(50% - 100.253px)',
+        width: bandWidth,
+        height: '189.953px',
+        background: '#f3655b',
+        borderRadius: '42.2118px',
+        transform: 'translateX(-50%)',
+      }} />
+    </div>
+  );
+};
 
 const ChevronDown = ({ onClick }: { onClick: () => void }) => (
   <button

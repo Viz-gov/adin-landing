@@ -226,9 +226,19 @@ function RotatingHeader() {
   const [index, setIndex] = useState(0);
   const [playing, setPlaying] = useState(true);
   const [progress, setProgress] = useState(0);
+  const [minHeight, setMinHeight] = useState<number | undefined>(undefined);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const duration = 3500; // ms
   const progressInterval = 20; // ms
+  const hitRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  useEffect(() => {
+    // Measure all hits and set minHeight to the tallest
+    if (hitRefs.current.length === hits.length) {
+      const heights = hitRefs.current.map((el) => el?.offsetHeight || 0);
+      setMinHeight(Math.max(...heights));
+    }
+  }, []);
 
   useEffect(() => {
     if (!playing) return;
@@ -257,27 +267,42 @@ function RotatingHeader() {
   const handlePlayPause = () => setPlaying((p) => !p);
 
   return (
-    <div style={{
-      width: 836,
-      maxWidth: '90vw',
-      margin: '0 auto',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
-      fontFamily: 'Inter, sans-serif',
-      fontWeight: 600,
-      fontSize: 32,
-      lineHeight: '40px',
-      color: '#86868b',
-      textAlign: 'center',
-      letterSpacing: 0,
-      transition: 'opacity 0.5s',
-      minHeight: 80,
-    }}>
+    <div
+      id="hits-section"
+      style={{
+        width: '100%',
+        maxWidth: 836,
+        margin: '0 auto',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        fontFamily: 'Inter, sans-serif',
+        fontWeight: 600,
+        fontSize: 32,
+        lineHeight: '40px',
+        color: '#86868b',
+        textAlign: 'center',
+        letterSpacing: 0,
+        transition: 'opacity 0.5s',
+        minHeight: minHeight,
+      }}
+    >
+      {/* Render all hits offscreen for measurement, but only show the current one */}
+      <div style={{ position: 'absolute', visibility: 'hidden', pointerEvents: 'none', height: 0, overflow: 'hidden' }}>
+        {hits.map((hit, i) => (
+          <div
+            key={i}
+            ref={el => { hitRefs.current[i] = el; }}
+            style={{ fontSize: 32, fontWeight: 600, lineHeight: '40px', width: 836, maxWidth: '90vw', margin: 0, padding: 0 }}
+          >
+            {hit.text}
+          </div>
+        ))}
+      </div>
       <p
-        key={index}                         /* force remount on index change */
-        className={styles.fadeInLeft}       /* new CSS animation */
+        key={index}
+        className={styles.fadeInLeft}
         style={{ margin: 0, padding: 0, lineHeight: '40px' }}
       >
         {hits[index].text}
@@ -362,7 +387,9 @@ const Content: React.FC = () => {
   return (
   <section className={styles.contentSection}>
       <div style={{ height: 60 }} />
-      <RotatingHeader />
+      <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+        <RotatingHeader />
+      </div>
       <div style={{ height: 160 }} />
     <div className={styles.dealMakerContainer}>
       <div className={styles.dealMakerTextContainer}>
