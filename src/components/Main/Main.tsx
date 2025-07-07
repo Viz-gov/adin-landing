@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import styles from "./Main.module.css";
 import WatchVideoButton from "./WatchVideoButton";
+import LiveReports from "./LiveReports";
 
 const words = [
   { text: "biotech", color: "#a97df5" },
@@ -57,6 +58,7 @@ const Main: React.FC = () => {
       >
         <WatchVideoButton />
       </a>
+      <LiveReports />
     </main>
   );
 };

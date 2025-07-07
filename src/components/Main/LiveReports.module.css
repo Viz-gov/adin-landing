@@ -1,0 +1,161 @@
+.container {
+  position: absolute;
+  bottom: 40px;
+  right: 40px;
+  width: 320px;
+  border-radius: 24px;
+  padding: 24px 20px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  z-index: 10;
+  background: none;
+  box-shadow: none;
+  opacity: 0;
+  transition: opacity 0.6s cubic-bezier(0.4,0,0.2,1);
+  pointer-events: none;
+}
+
+.container.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.greenDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #49C17A;
+  display: inline-block;
+}
+
+.headerText {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: #000;
+}
+
+.reportList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.reportCard {
+  display: flex;
+  align-items: center;
+  border: 1px solid #f3eafd;
+  border-radius: 16px;
+  padding: 12px 16px;
+  gap: 12px;
+  background: #fff;
+  box-shadow: 0 4px 16px rgba(169, 125, 245, 0.10);
+  position: relative;
+  cursor: pointer;
+  transition: border 0.2s, box-shadow 0.2s, transform 0.15s;
+}
+
+.reportCard:hover {
+  border: 1.5px solid #a97df5;
+  box-shadow: 0 8px 24px rgba(169, 125, 245, 0.18);
+  transform: scale(1.07);
+}
+
+.reportCard:hover .fold {
+  opacity: 1;
+  transform: scaleX(1);
+}
+
+.logoBox {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+}
+
+.logoImg {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+.reportInfo {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.reportName {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: #111;
+  margin-bottom: 2px;
+}
+
+.reportSubtitle {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  color: #4d4d4d;
+}
+
+.fold {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: 36px;
+  background: #a97df5;
+  border-top-right-radius: 16px;
+  border-bottom-right-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: scaleX(0.7);
+  transition: opacity 0.2s, transform 0.2s;
+  z-index: 2;
+}
+
+.arrow {
+  width: 18px;
+  height: 18px;
+  display: block;
+}
+
+.viewAll {
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  text-decoration: none;
+  margin-top: 8px;
+  background: linear-gradient(270deg, #EEE, #000, #EEE, #000, #EEE);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: flowingGradient 2s linear infinite;
+  border: none;
+  cursor: pointer;
+  align-self: flex-end;
+}
+
+@keyframes flowingGradient {
+  0% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+} 
