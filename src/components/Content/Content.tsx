@@ -173,39 +173,177 @@ function InvestSection() {
   );
 }
 
+const rotatingHeaders = [
+  {
+    text: (
+      <>
+        <span style={{ color: '#86868b' }}>ADIN</span>
+        <span style={{ color: '#86868b' }}>{' is '}</span>
+        <span style={{ color: '#86868b' }}>{'a global network of '}</span>
+        <span style={{ color: '#000' }}>1,2302 humans</span>
+        <span style={{ color: '#86868b' }}>{' sharing insights and knowledge as Investors, Members, & Founders.'}</span>
+      </>
+    ),
+  },
+  {
+    text: (
+      <>
+        <span style={{ color: '#000' }}>Investors (Human LPs)</span>
+        <span style={{ color: '#86868b' }}>{' vote on proposed deals, guiding decision-making through collective insights, and over time enabling the fine tuning of models.'}</span>
+      </>
+    ),
+  },
+  {
+    text: (
+      <>
+        <span style={{ color: '#86868b' }}>{'Our team writes checks from '}</span>
+        <span style={{ color: '#000' }}>$500k to $2 million</span>
+        <span style={{ color: '#86868b' }}>{', partnering with visionary builders in connectivity, compute, crypto, and creative economies.'}</span>
+      </>
+    ),
+  },
+];
+
+function RotatingHeader() {
+  const [index, setIndex] = useState(0);
+  const [playing, setPlaying] = useState(true);
+  const [progress, setProgress] = useState(0);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const duration = 3500; // ms
+  const progressInterval = 20; // ms
+
+  useEffect(() => {
+    if (!playing) return;
+    intervalRef.current = setInterval(() => {
+      setProgress((prev) => {
+        if (prev + progressInterval >= duration) {
+          setIndex((i) => (i + 1) % rotatingHeaders.length);
+          return 0;
+        }
+        return prev + progressInterval;
+      });
+    }, progressInterval);
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
+    };
+  }, [playing, index]);
+
+  useEffect(() => {
+    if (!playing) return;
+    setProgress(0);
+  }, [index, playing]);
+
+  const handlePlayPause = () => setPlaying((p) => !p);
+
+  return (
+    <div style={{
+      width: 836,
+      maxWidth: '90vw',
+      margin: '0 auto',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      fontFamily: 'Inter, sans-serif',
+      fontWeight: 600,
+      fontSize: 32,
+      lineHeight: '40px',
+      color: '#86868b',
+      textAlign: 'center',
+      letterSpacing: 0,
+      marginBottom: 32,
+      transition: 'opacity 0.5s',
+      minHeight: 80,
+    }}>
+      <p style={{ margin: 0, padding: 0, lineHeight: '40px' }}>{rotatingHeaders[index].text}</p>
+      <div style={{ display: 'flex', flexDirection: 'row', gap: 16, alignItems: 'center', justifyContent: 'center', marginTop: 24 }}>
+        {/* Play Button */}
+        <button
+          onClick={handlePlayPause}
+          aria-label={playing ? 'Pause' : 'Play'}
+          style={{
+            background: '#f3eafd',
+            border: 'none',
+            borderRadius: 40,
+            padding: 10,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            cursor: 'pointer',
+            width: 40,
+            height: 40,
+            marginRight: 8,
+          }}
+        >
+          {playing ? (
+            // Pause icon
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="3" y="3" width="4" height="12" rx="2" fill="#A97DF5"/><rect x="11" y="3" width="4" height="12" rx="2" fill="#A97DF5"/></svg>
+          ) : (
+            // Play icon
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M2 2L16 9L2 16V2Z" fill="#A97DF5"/></svg>
+          )}
+        </button>
+        {/* Progress Bar */}
+        <div style={{
+          background: '#f3eafd',
+          borderRadius: 40,
+          padding: 10,
+          display: 'flex',
+          alignItems: 'center',
+          minWidth: 120,
+          minHeight: 20,
+        }}>
+          <div style={{ position: 'relative', width: 56, height: 8, background: '#e1d1fa', borderRadius: 20, overflow: 'hidden', marginRight: 12 }}>
+            <div style={{ position: 'absolute', left: 0, top: 0, height: 8, width: `${(progress / duration) * 56}px`, background: '#a97df5', borderRadius: 20, transition: 'width 0.1s' }} />
+          </div>
+          {/* Dots */}
+          <div style={{ width: 8, height: 8, background: '#e1d1fa', borderRadius: 20, marginRight: 4 }} />
+          <div style={{ width: 8, height: 8, background: '#e1d1fa', borderRadius: 20 }} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 const Content: React.FC = () => {
   const mainContentRef = useRef<HTMLDivElement>(null);
   return (
-    <section className={styles.contentSection}>
-      <div className={styles.dealMakerContainer}>
-        <div className={styles.dealMakerTextContainer}>
-          <div className={styles.dealMakerHeadline}>
-            <p>AI speed.<br />Human judgment.</p>
-          </div>
-          <div className={styles.dealMakerSubtext}>
-            <p>
-              ADIN pairs expert operators with intelligent agents to handle the heavy lifting of venture workflows. Faster analysis, tighter feedback loops, and more space for high-conviction bets.
-            </p>
-          </div>
+  <section className={styles.contentSection}>
+      <div style={{ height: 60 }} />
+      <RotatingHeader />
+      <div style={{ height: 160 }} />
+    <div className={styles.dealMakerContainer}>
+      <div className={styles.dealMakerTextContainer}>
+        <div className={styles.dealMakerHeadline}>
+          <p>AI speed.<br />Human judgment.</p>
+        </div>
+        <div className={styles.dealMakerSubtext}>
+          <p>
+            ADIN pairs expert operators with intelligent agents to handle the heavy lifting of venture workflows. Faster analysis, tighter feedback loops, and more space for high-conviction bets.
+          </p>
         </div>
       </div>
+    </div>
       <div ref={mainContentRef} id="home-content-section" className={styles.cardsRow}>
-        {/* Left Card: Powered by AI Agents */}
-        <div className={styles.leftCard}>
+      {/* Left Card: Powered by AI Agents */}
+      <div className={styles.leftCard}>
           <div className={styles.leftCardTitleBlock}>
             <span className={styles.leftCardTitlePowered}>Powered by</span>
             <span className={styles.leftCardTitleAgents}>AI Agents</span>
           </div>
-          <div className={styles.leftCardAgents}>
-            {agents.map((agent, i) => (
+        <div className={styles.leftCardAgents}>
+          {agents.map((agent, i) => (
               <React.Fragment key={i}>
                 <div className={styles.agentRow}>
-                  <img src={agent.icon} alt={agent.name} className={styles.agentIcon} />
-                  <div className={styles.agentTextBlock}>
-                    <div className={styles.agentName}>{agent.name}</div>
-                    <div className={styles.agentDesc}>{agent.desc}</div>
-                  </div>
-                </div>
+              <img src={agent.icon} alt={agent.name} className={styles.agentIcon} />
+              <div className={styles.agentTextBlock}>
+                <div className={styles.agentName}>{agent.name}</div>
+                <div className={styles.agentDesc}>{agent.desc}</div>
+              </div>
+            </div>
                 {i < agents.length - 1 && (
                   <div className={styles.agentDivider} />
                 )}
@@ -304,14 +442,14 @@ const Content: React.FC = () => {
             </div>
             <div className={styles.earlyStepGridItem}></div>
           </div>
-        </div>
       </div>
+    </div>
       {/* FAQ Section - 160px spacing above */}
       <FaqSection />
       {/* Invest Section - 160px spacing above */}
       <InvestSection />
-    </section>
-  );
+  </section>
+);
 };
 
 export default Content; 
