@@ -39,4 +39,17 @@
   opacity: 0;
   transform: rotateX(60deg) translateY(40px);
   transition: opacity 0.3s cubic-bezier(0.4,0,0.2,1), transform 0.3s cubic-bezier(0.4,0,0.2,1);
+}
+
+.watchVideoButtonSpacing {
+  margin-top: 50px;
+}
+
+.button:hover {
+  transform: scale(1.07);
+  transition: transform 0.15s;
+}
+
+.button {
+  transition: transform 0.15s;
 } 

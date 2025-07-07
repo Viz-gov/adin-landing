@@ -48,7 +48,15 @@ const Main: React.FC = () => {
       <p className={styles.heroSubtext}>
         ADIN backs teams building the future of the internet focusing on Seed Rounds to Series-A.
       </p>
-      <WatchVideoButton />
+      <a
+        href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+        target="_blank"
+        rel="noopener noreferrer"
+        className={styles.watchVideoButtonSpacing}
+        style={{ textDecoration: 'none', display: 'inline-block' }}
+      >
+        <WatchVideoButton />
+      </a>
     </main>
   );
 };

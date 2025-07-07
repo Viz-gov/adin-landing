@@ -8,6 +8,11 @@
   padding: 4px 16px 4px 4px;
   overflow: hidden;
   width: fit-content;
+  transition: transform 0.15s;
+}
+
+.button:hover {
+  transform: scale(1.07);
 }
 
 .iconSection {
@@ -101,10 +106,21 @@
   font-weight: 500;
   font-size: 16px;
   line-height: 20px;
-  background: linear-gradient(90deg, #EEE, #EEE);
+  background: linear-gradient(270deg, #EEE, #000, #EEE, #000, #EEE);
+  background-size: 200% 200%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  animation: flowingGradient 2s linear infinite;
+}
+
+@keyframes flowingGradient {
+  0% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 .smileyImg {
