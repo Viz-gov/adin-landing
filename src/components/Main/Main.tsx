@@ -70,7 +70,7 @@ const GradientBackground = () => (
   </div>
 );
 
-const ChevronDown = ({ onClick }) => (
+const ChevronDown = ({ onClick }: { onClick: () => void }) => (
   <button
     onClick={onClick}
     style={{ display:'flex',justifyContent:'center',alignItems:'center',background:'none',border:'none',margin:'0 auto 24px',cursor:'pointer',zIndex:2,transition:'transform .2s' }}
@@ -139,9 +139,7 @@ const Main: React.FC = () => {
         <br></br>
         <ChevronDown onClick={handleChevronClick} />
         <GradientBackground />
-        
       </main>
-      <section id="home-content-section" style={{ minHeight: '100vh', background: '#fff', width: '100%' }} />
     </>
   );
 };

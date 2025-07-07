@@ -1,0 +1,116 @@
+.footerSection {
+  position: relative;
+  width: 100vw;
+  min-width: 100vw;
+  left: 0;
+  right: 0;
+  background: #fff;
+  overflow: hidden;
+  padding: 0;
+  margin: 0;
+  border-top: 1px solid #f3eafd;
+}
+.footerContentWrap {
+  position: relative;
+  z-index: 1;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  min-height: 238px;
+  padding-top: 0px;
+  padding-bottom: 48px;
+}
+.footerLinksContainer {
+  background: #fff;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 1440px;
+  min-height: 238px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0;
+  padding: 44px 80px 0 80px;
+  border-radius: 0;
+  box-shadow: none;
+}
+.footerLinksColumns {
+  display: flex;
+  flex-direction: row;
+  gap: 80px;
+}
+.footerLinksCol {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  min-width: 160px;
+}
+.footerIconMain {
+  width: 24px;
+  height: 24px;
+  margin-bottom: 0;
+}
+.footerColTitleBold {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: #000;
+  line-height: 16px;
+  margin-top: 4px;
+  margin-bottom: 0;
+}
+.footerColLink {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: #4d4d4d;
+  line-height: 20px;
+  margin: 0;
+}
+.footerRightCol {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-start;
+  min-width: 320px;
+  gap: 12px;
+  text-align: right;
+}
+.footerLogo {
+  width: 40px;
+  height: 40px;
+  margin-bottom: 0;
+}
+.footerLegalText {
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  color: #000;
+  text-align: right;
+  line-height: 16px;
+  margin-bottom: 0;
+}
+.footerSocialRow {
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+  align-items: center;
+  margin-bottom: 0;
+}
+.footerSocialIcon {
+  width: 32px;
+  height: 32px;
+  display: block;
+}
+.footerCopyright {
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  color: #b3b3b3;
+  text-align: right;
+  line-height: 16px;
+  margin-top: 0;
+} 
