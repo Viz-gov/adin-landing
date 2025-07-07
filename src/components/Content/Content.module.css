@@ -203,7 +203,7 @@
 }
 
 .rightCard {
-  background: #fff;
+  background: rgba(255,255,255,0.8);
   border-radius: 40px;
   box-shadow: 0 4px 32px 0 rgba(0,0,0,0.06);
   display: flex;
@@ -212,6 +212,155 @@
   width: 480px;
   min-height: 520px;
   padding: 0;
+  position: relative;
+  overflow: visible;
+  backdrop-filter: blur(4px);
+}
+
+.rightCardContentWrapper {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.rightCardTitleBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-left: 40px;
+  margin-top: 40px;
+  margin-bottom: 8px;
+  gap: 0px;
+  z-index: 2;
+}
+
+.rightCardTitleSupported {
+  font-family: 'Inter', sans-serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: #000000;
+  line-height: 28px;
+  letter-spacing: 0;
+}
+
+.rightCardTitleHumans {
+  font-family: 'Inter', sans-serif;
+  font-size: 32px;
+  font-weight: 600;
+  color: #000000;
+  line-height: 40px;
+  letter-spacing: 0;
+}
+
+.rightCardImageArea {
+  position: relative;
+  width: 468px;
+  height: 460px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rightCardBlurYellow {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  filter: blur(60px);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.rightCardBlurPurple {
+  position: absolute;
+  left: -484px;
+  bottom: 0;
+  z-index: 0;
+  filter: blur(60px);
+  pointer-events: none;
+}
+
+.rightCardBlurGreen {
+  position: absolute;
+  right: -444px;
+  bottom: 0;
+  z-index: 0;
+  filter: blur(60px);
+  pointer-events: none;
+}
+
+.rightCardProfileImage {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  width: 420px;
+  height: 422px;
+  border-radius: 32px;
+  background: #FCF0D1 url('/Profile Card Image.svg') center/cover no-repeat;
+  z-index: 3;
+  box-shadow: 0 4px 32px 0 rgba(0,0,0,0.06);
+}
+
+.rightCardProfileInfoGlass {
+  position: absolute;
+  left: 50%;
+  bottom: 24px;
+  transform: translateX(-50%);
+  width: 452px;
+  background: rgba(255,255,255,0.16);
+  border-radius: 24px;
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  z-index: 4;
+}
+
+.rightCardProfileInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.rightCardProfileNameRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+
+.rightCardProfileName {
+  font-family: 'Inter', sans-serif;
+  font-size: 24px;
+  font-weight: 600;
+  color: #fff;
+  line-height: 32px;
+  letter-spacing: 0;
+}
+
+.rightCardProfileBadge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 4px;
+}
+
+.rightCardProfileSubtitle {
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  color: #fff;
+  line-height: 20px;
+  margin-top: 2px;
 }
 
 .profileCardImage {
@@ -220,6 +369,70 @@
   border-radius: 32px;
   object-fit: cover;
   display: block;
+  background: #FCF0D1;
+}
+
+.rightCardMiniCardPurple {
+  position: absolute;
+  left: 24px;
+  top: 50%;
+  width: 220px;
+  height: 340px;
+  background: #F3EAFD;
+  border-radius: 32px;
+  z-index: 1;
+  box-shadow: 0 4px 32px 0 rgba(169,125,245,0.10);
+  transform: translateY(-50%);
+}
+
+.rightCardMiniCardBeige {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 320px;
+  height: 380px;
+  background: #ffffff;
+  border-radius: 32px;
+  z-index: 2;
+  box-shadow: 0 4px 32px 0 rgba(252,240,209,0.10);
+}
+
+.rightCardMiniCardGreen {
+  position: absolute;
+  right: 24px;
+  top: 50%;
+  width: 160px;
+  height: 300px;
+  background: #AEFFCF;
+  border-radius: 32px;
+  z-index: 1;
+  box-shadow: 0 4px 32px 0 rgba(174,255,207,0.10);
+  transform: translateY(-50%);
+}
+
+.carouselContainer {
+  position: relative;
+  width: 420px;
+  height: 422px;
+  margin: 0 auto;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.carouselSlide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 420px;
+  height: 422px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
 }
 
 @media (max-width: 1100px) {
