@@ -54,10 +54,10 @@ function ProfileCarousel() {
             <div className="flex items-center gap-2">
               <span className="text-base sm:text-xl font-semibold text-white">{variant.name}</span>
               <span className="flex items-center ml-1">
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                   <circle cx="8" cy="8" r="8" fill={variant.badge} />
-                  <path d="M11 5.5L7.25 10L5 7.75" stroke="#000" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
+                <path d="M11 5.5L7.25 10L5 7.75" stroke="#000" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
               </span>
             </div>
             <span className="text-xs sm:text-sm text-white mt-1">{variant.subtitle}</span>
@@ -142,10 +142,10 @@ function FaqSection() {
               {i < faqQuestions.length - 1 && (
                 <div className="w-full h-px bg-[#F3EAFD] mt-8" />
               )}
-            </div>
-          ))}
-        </div>
+          </div>
+        ))}
       </div>
+    </div>
     </section>
   );
 }
@@ -328,6 +328,29 @@ function RotatingHeader() {
 }
 
 export default function Content() {
+  // Add a state to track if the screen is small
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
+  const [showEarlyAccess, setShowEarlyAccess] = useState(true);
+  const earlyAccessRef = useRef<HTMLSpanElement>(null);
+  useEffect(() => {
+    const checkScreen = () => setIsSmallScreen(window.innerWidth < 640);
+    checkScreen();
+    window.addEventListener('resize', checkScreen);
+    return () => window.removeEventListener('resize', checkScreen);
+  }, []);
+
+  useEffect(() => {
+    function checkTextFits() {
+      const el = earlyAccessRef.current;
+      if (!el) return;
+      // If scrollWidth > clientWidth, it is wrapping
+      setShowEarlyAccess(el.scrollWidth <= el.clientWidth);
+    }
+    checkTextFits();
+    window.addEventListener('resize', checkTextFits);
+    return () => window.removeEventListener('resize', checkTextFits);
+  }, []);
+
   return (
     <section className="relative z-10 w-full bg-white flex flex-col items-stretch px-4 sm:px-40 overflow-x-hidden overflow-hidden">
       <div className="h-16" />
@@ -369,9 +392,9 @@ export default function Content() {
             <div className="flex flex-col items-start ml-4 sm:ml-[40px] mt-4 sm:mt-[40px] mb-2 z-10">
               <span className="font-inter font-semibold text-[18px] sm:text-[22px] leading-[24px] sm:leading-[28px] text-black mb-0">Supported by</span>
               <span className="font-inter font-semibold text-[24px] sm:text-[32px] leading-[32px] sm:leading-[40px] text-black mt-0">Humans</span>
-            </div>
+          </div>
             <div className="flex items-center justify-center w-full max-w-[420px] h-[320px] sm:w-[468px] sm:h-[460px] mx-auto relative">
-              <ProfileCarousel />
+            <ProfileCarousel />
             </div>
           </div>
         </div>
@@ -390,7 +413,7 @@ export default function Content() {
                       <path d="M0 18L10.5 12V0L0 6V18Z" fill="#fff"/>
                       <path d="M10.5 12L0 6L10.5 0L21 6L10.5 12Z" fill="#fff"/>
                     </g>
-                  </svg>
+            </svg>
                 </div>
               </div>
               <div className="flex flex-col items-start gap-[2px]">
@@ -467,17 +490,36 @@ export default function Content() {
       <div className="mt-[80px] sm:mt-[160px] mb-[120px] sm:mb-[254px] w-full flex flex-col items-center justify-start gap-6 sm:gap-10">
         <div className="font-inter font-semibold text-3xl sm:text-[56px] leading-9 sm:leading-[64px] text-black text-center w-full max-w-[1120px]">Invest with ADIN.</div>
         <div className="flex flex-col items-center gap-4 sm:gap-8 w-full">
-          <div className="relative bg-white rounded-[24px] sm:rounded-[32px] inline-block mx-auto w-full max-w-[420px] sm:max-w-none">
-            <div className="flex flex-col sm:inline-flex sm:flex-row items-center sm:items-center gap-3 sm:gap-6 p-2 sm:p-1.5 sm:pl-4 z-10 relative w-full">
-              <span className="font-inter text-[15px] sm:text-[16px] font-medium leading-5 mb-2 sm:mb-0 mr-0 sm:mr-4 bg-gradient-to-r from-[#b3b3b3] to-[#a97df5] bg-clip-text text-transparent text-center sm:text-left">Early access for Tribute Labs Members</span>
-              <span className="flex items-center justify-center w-full sm:w-auto">
-                <button className="bg-[#a97df5] border-none rounded-full w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-[14px] flex items-center justify-center cursor-pointer transition-shadow duration-200 shadow-[0_2px_8px_0_rgba(169,125,245,0.10)] hover:shadow-[0_4px_24px_0_rgba(169,125,245,0.18)]">
-                  <span className="font-inter text-[15px] sm:text-[16px] font-medium text-white leading-5 whitespace-pre">Get Started &rarr;</span>
-                </button>
-              </span>
+          {isSmallScreen ? (
+            <div className="flex justify-center w-full">
+              <button className="bg-[#a97df5] border-none rounded-[80px] px-6 py-[14px] flex items-center justify-center cursor-pointer transition-shadow duration-200 shadow-[0_2px_8px_0_rgba(169,125,245,0.10)] hover:shadow-[0_4px_24px_0_rgba(169,125,245,0.18)] font-inter font-medium text-[16px] text-white leading-5 whitespace-pre z-10 relative mx-auto">
+                Get Started &rarr;
+              </button>
             </div>
-            <div className="pointer-events-none absolute top-1 bottom-1 left-2 right-2 border border-[#f3eafd] rounded-[24px] sm:rounded-[32px] z-0" />
-          </div>
+          ) : (
+            <div className="relative inline-block mx-auto w-full max-w-[520px]">
+              <div className={`flex flex-row items-center gap-4 pl-6 pr-1 py-1 bg-white z-10 relative border border-[#f3eafd] rounded-[32px] transition-all duration-200`}>
+                {showEarlyAccess && (
+                  <span
+                    ref={earlyAccessRef}
+                    className="font-inter font-medium text-[16px] leading-5 bg-clip-text text-transparent text-left whitespace-nowrap overflow-hidden"
+                    style={{
+                      backgroundImage: 'linear-gradient(90deg, #b3b3b3 0%, #a97df5 100%)',
+                      WebkitBackgroundClip: 'text',
+                      WebkitTextFillColor: 'transparent',
+                      maxWidth: '100%'
+                    }}
+                  >
+                    Early access for Tribute Labs Members
+                  </span>
+                )}
+                <button className="bg-[#a97df5] border-none rounded-[80px] px-6 py-[14px] flex items-center justify-center cursor-pointer transition-shadow duration-200 shadow-[0_2px_8px_0_rgba(169,125,245,0.10)] hover:shadow-[0_4px_24px_0_rgba(169,125,245,0.18)] font-inter font-medium text-[16px] text-white leading-5 whitespace-pre z-10 relative">
+                  Get Started &rarr;
+                </button>
+              </div>
+              <div className="pointer-events-none absolute inset-0 border border-[#f3eafd] border-solid rounded-[32px]" />
+            </div>
+          )}
           <div className="font-inter text-[15px] sm:text-[17px] font-normal leading-6 text-[#a97df5] flex items-center justify-center gap-1 w-full mt-2">
             <span className="text-[#b3b3b3]">Not a Tribute Labs Member?</span>
             <a href="#" className="text-[#a97df5] font-medium ml-2 no-underline cursor-pointer">Join the Waitlist &rarr;</a>
