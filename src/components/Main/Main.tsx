@@ -95,6 +95,7 @@ const ChevronDown = ({ onClick }: { onClick: () => void }) => (
 const Main: React.FC = () => {
   const [index, setIndex] = useState(0);
   const [fade, setFade] = useState(false);
+  const [showLiveReports, setShowLiveReports] = useState(true);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -144,7 +145,7 @@ const Main: React.FC = () => {
         >
           <WatchVideoButton />
         </a>
-        <LiveReports />
+        {showLiveReports ? <LiveReports /> : <LiveReports minimal />}
         <br></br>
         <br></br>
         <br></br>
