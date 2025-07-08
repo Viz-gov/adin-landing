@@ -1,0 +1,104 @@
+// components/Main.tsx
+'use client';
+import React, { useState, useEffect } from 'react';
+import LiveReports from './LiveReports';
+import WatchVideoButton from './WatchVideoButton';
+
+const words = [
+  { text: 'biotech', color: '#a97df5' },
+  { text: '3d printing', color: '#FFD17A' },
+  { text: 'blockchain', color: '#5ED890' },
+  { text: 'creative tools', color: '#FF9066' },
+  { text: 'medical', color: '#FFD17A' },
+];
+
+export default function Main() {
+  const [index, setIndex] = useState(0);
+  const [fade, setFade] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const [showLiveReports, setShowLiveReports] = useState(true);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setFade(true);
+      setTimeout(() => {
+        setIndex((prev) => (prev + 1) % words.length);
+        setFade(false);
+      }, 300);
+    }, 2000);
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 700);
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const handleChevronClick = () => {
+    const el = document.getElementById('hits-section');
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  return (
+    <main
+      className="relative z-1 flex flex-col items-center justify-center min-h-[60vh] overflow-x-hidden px-4 sm:px-0"
+    >
+      <h1
+        className={`font-inter font-semibold text-center text-black mb-4 text-2xl sm:text-[2.5rem] mt-20 sm:mt-[160px]`}
+        style={{ fontWeight: 600 }}
+      >
+        Investing in early<br />stage ideas building for<br />
+        <span style={{ display: 'inline-block' }}>
+          <span
+            className={`inline-block transition-all duration-300 ${
+              fade
+                ? 'opacity-0 [transform:rotateX(60deg)_translateY(40px)]'
+                : 'opacity-100 [transform:rotateX(0deg)_translateY(0)]'
+            }`}
+            style={{ color: words[index].color }}
+          >
+            {words[index].text}
+          </span>
+          <span
+            className={`inline-block transition-all duration-300 ${
+              fade
+                ? 'opacity-0 [transform:rotateX(60deg)_translateY(40px)]'
+                : 'opacity-100 [transform:rotateX(0deg)_translateY(0)]'
+            }`}
+          >
+            .
+          </span>
+        </span>
+      </h1>
+      <p
+        className="text-center text-[#4d4d4d] text-base sm:text-xl max-w-full sm:max-w-[600px]"
+      >
+        ADIN backs teams building the future of the internet focusing on Seed Rounds to Series-A.
+      </p>
+      <a
+        href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="mt-6 sm:mt-[50px]"
+        style={{ textDecoration: 'none', display: 'inline-block' }}
+      >
+        <WatchVideoButton />
+      </a>
+      {showLiveReports ? <LiveReports /> : <LiveReports minimal />}
+      <br />
+      <br />
+      <br />
+      <button
+        onClick={handleChevronClick}
+        aria-label="Scroll down"
+        className="flex justify-center items-center mb-6 cursor-pointer transition-transform duration-200"
+        style={{ margin: '0 auto 24px' }}
+      >
+        <img src="/chevron-down.svg" width={24} height={24} alt="Scroll down" />
+      </button>
+      <div style={{ height: 160 }} />
+    </main>
+  );
+}
