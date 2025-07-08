@@ -16,13 +16,12 @@ export default function Main() {
   const [index, setIndex] = useState(0);
   const [fade, setFade] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const [showLiveReports, setShowLiveReports] = useState(true);
 
   useEffect(() => {
     const interval = setInterval(() => {
       setFade(true);
       setTimeout(() => {
-        setIndex((prev) => (prev + 1) % words.length);
+        setIndex((i) => (i + 1) % words.length);
         setFade(false);
       }, 300);
     }, 2000);
@@ -30,75 +29,61 @@ export default function Main() {
   }, []);
 
   useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth <= 700);
-    handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    const onResize = () => setIsMobile(window.innerWidth <= 700);
+    onResize();
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
   }, []);
 
-  const handleChevronClick = () => {
-    const el = document.getElementById('hits-section');
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  const scrollToHits = () => {
+    document.getElementById('hits-section')?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
-    <main
-      className="relative z-1 flex flex-col items-center justify-center min-h-[60vh] overflow-x-hidden px-4 sm:px-0"
-    >
-      <h1
-        className={`font-inter font-semibold text-center text-black mb-4 text-2xl sm:text-[2.5rem] mt-20 sm:mt-[160px]`}
-        style={{ fontWeight: 600 }}
-      >
+    <main className="relative z-10 flex flex-col items-center justify-center min-h-[60vh] overflow-x-hidden px-4 sm:px-0">
+      <h1 className="font-inter font-semibold text-center text-black mb-4 text-2xl sm:text-[2.5rem] mt-20 sm:mt-[160px]">
         Investing in early<br />stage ideas building for<br />
-        <span style={{ display: 'inline-block' }}>
+        <span className="inline-block">
           <span
             className={`inline-block transition-all duration-300 ${
-              fade
-                ? 'opacity-0 [transform:rotateX(60deg)_translateY(40px)]'
-                : 'opacity-100 [transform:rotateX(0deg)_translateY(0)]'
+              fade 
+                ? 'opacity-0 [transform:rotateX(60deg)_translateY(40px)]' 
+                : 'opacity-100 [transform:rotateX(0)_translateY(0)]'
             }`}
             style={{ color: words[index].color }}
           >
             {words[index].text}
           </span>
-          <span
-            className={`inline-block transition-all duration-300 ${
-              fade
-                ? 'opacity-0 [transform:rotateX(60deg)_translateY(40px)]'
-                : 'opacity-100 [transform:rotateX(0deg)_translateY(0)]'
-            }`}
-          >
+          <span className={`inline-block transition-all duration-300 ${fade ? 'opacity-0 [transform:rotateX(60deg)_translateY(40px)]' : 'opacity-100'}`}>
             .
           </span>
         </span>
       </h1>
-      <p
-        className="text-center text-[#4d4d4d] text-base sm:text-xl max-w-full sm:max-w-[600px]"
-      >
+
+      <p className="text-center text-[#4d4d4d] text-base sm:text-xl max-w-full sm:max-w-[600px]">
         ADIN backs teams building the future of the internet focusing on Seed Rounds to Series-A.
       </p>
+
       <a
         href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
         target="_blank"
         rel="noopener noreferrer"
-        className="mt-6 sm:mt-[50px]"
-        style={{ textDecoration: 'none', display: 'inline-block' }}
+        className="mt-6 sm:mt-[50px] mb-16 no-underline inline-block"
       >
         <WatchVideoButton />
       </a>
-      {showLiveReports ? <LiveReports /> : <LiveReports minimal />}
-      <br />
-      <br />
-      <br />
+
+      <LiveReports />
+
       <button
-        onClick={handleChevronClick}
+        onClick={scrollToHits}
         aria-label="Scroll down"
-        className="flex justify-center items-center mb-6 cursor-pointer transition-transform duration-200"
-        style={{ margin: '0 auto 24px' }}
+        className="flex justify-center items-center mx-auto mb-6 cursor-pointer transition-transform duration-200"
       >
         <img src="/chevron-down.svg" width={24} height={24} alt="Scroll down" />
       </button>
-      <div style={{ height: 160 }} />
+
+      <div className="h-[160px]" />
     </main>
   );
 }

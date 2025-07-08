@@ -186,88 +186,77 @@ const hits = [
   {
     text: (
       <>
-        <span style={{ color: '#86868b' }}>{'Our team writes checks from '}</span>
-        <span style={{ color: '#000' }}>$500k to $2 million</span>
-        <span style={{ color: '#86868b' }}>{', partnering with visionary builders in connectivity, compute, crypto, and creative economies.'}</span>
+        <span style={{ color: '#000' }}>Investors (Human LPs)</span>
+        <span style={{ color: '#86868b' }}>{' vote on proposed deals, guiding decision-making through collective insights, and over time enabling the fine tuning of models.'}</span>
       </>
     ),
   },
   {
     text: (
       <>
-        <span style={{ color: '#000' }}>Investors (Human LPs)</span>
-        <span style={{ color: '#86868b' }}>{' vote on proposed deals, guiding decision-making through collective insights, and over time enabling the fine tuning of models.'}</span>
+        <span style={{ color: '#86868b' }}>{'Our team writes checks from '}</span>
+        <span style={{ color: '#000' }}>$500k to $2 million</span>
+        <span style={{ color: '#86868b' }}>{', partnering with visionary builders in connectivity, compute, crypto, and creative economies.'}</span>
       </>
     ),
   },
 ];
 
+// Shared styles for progress bar and dots
+const dotStyle = { width: 8, height: 8, background: '#e1d1fa', borderRadius: 20 };
+const barStyle = { position: 'relative' as const, width: 56, height: 8, background: '#e1d1fa', borderRadius: 20, overflow: 'hidden' };
+
 function RotatingHeader() {
   const [index, setIndex] = useState(0);
   const [playing, setPlaying] = useState(true);
   const [progress, setProgress] = useState(0);
+  const [isFadingOut, setIsFadingOut] = useState(false);
   const duration = 3500;
   const interval = 20;
+  const fadeDuration = 300;
 
   useEffect(() => {
-    if (!playing) return;
+    if (!playing || isFadingOut) return;
     const timer = setInterval(() => {
       setProgress((prev) => {
         if (prev + interval >= duration) {
-          setIndex((i) => (i + 1) % hits.length);
+          setIsFadingOut(true);
           return 0;
         }
         return prev + interval;
       });
     }, interval);
     return () => clearInterval(timer);
-  }, [playing, index]);
+  }, [playing, index, isFadingOut]);
 
   useEffect(() => {
-    if (!playing) return;
-    setProgress(0);
+    if (!isFadingOut) return;
+    const timeout = setTimeout(() => {
+      setIndex((i) => (i + 1) % hits.length);
+      setIsFadingOut(false);
+    }, fadeDuration);
+    return () => clearTimeout(timeout);
+  }, [isFadingOut]);
+
+  useEffect(() => {
+    if (playing) setProgress(0);
   }, [index, playing]);
 
-  const getProgressBar = () => {
-    // Match the original: bar/dot/dot, dot/dot/bar, dot/bar/dot
-    if (index === 0) {
-      return (
-        <>
-          <div style={{ position: 'relative', width: 56, height: 8, background: '#e1d1fa', borderRadius: 20, overflow: 'hidden' }}>
-            <div style={{ position: 'absolute', left: 0, top: 0, height: 8, width: `${(progress / duration) * 56}px`, background: '#a97df5', borderRadius: 20, transition: 'width 0.1s' }} />
-          </div>
-          <div style={{ width: 8, height: 8, background: '#e1d1fa', borderRadius: 20 }} />
-          <div style={{ width: 8, height: 8, background: '#e1d1fa', borderRadius: 20 }} />
-        </>
-      );
-    } else if (index === 1) {
-      return (
-        <>
-          <div style={{ width: 8, height: 8, background: '#e1d1fa', borderRadius: 20 }} />
-          <div style={{ width: 8, height: 8, background: '#e1d1fa', borderRadius: 20 }} />
-          <div style={{ position: 'relative', width: 56, height: 8, background: '#e1d1fa', borderRadius: 20, overflow: 'hidden' }}>
-            <div style={{ position: 'absolute', left: 0, top: 0, height: 8, width: `${(progress / duration) * 56}px`, background: '#a97df5', borderRadius: 20, transition: 'width 0.1s' }} />
-          </div>
-        </>
-      );
-    } else {
-      return (
-        <>
-          <div style={{ width: 8, height: 8, background: '#e1d1fa', borderRadius: 20 }} />
-          <div style={{ position: 'relative', width: 56, height: 8, background: '#e1d1fa', borderRadius: 20, overflow: 'hidden' }}>
-            <div style={{ position: 'absolute', left: 0, top: 0, height: 8, width: `${(progress / duration) * 56}px`, background: '#a97df5', borderRadius: 20, transition: 'width 0.1s' }} />
-          </div>
-          <div style={{ width: 8, height: 8, background: '#e1d1fa', borderRadius: 20 }} />
-        </>
-      );
-    }
-  };
-
   return (
-    <div id="hits-section" className="mx-auto max-w-[836px] text-center font-inter font-semibold text-2xl leading-[40px] relative flex flex-col items-center overflow-visible">
-      <p className="font-inter font-semibold text-2xl leading-[40px]" style={{ color: '#86868b' }}>
+    <div
+      id="hits-section"
+      className="mx-auto max-w-[836px] text-center font-inter font-semibold text-2xl leading-[40px] relative flex flex-col items-center overflow-visible"
+    >
+      <p
+        key={index}
+        className={`px-4 sm:px-0 transition-opacity duration-300 ${
+          isFadingOut ? 'opacity-0' : 'opacity-100'
+        }`}
+        style={{ lineHeight: '40px' }}
+      >
         {hits[index].text}
       </p>
+
       <div className="mt-6 flex items-center justify-center gap-4">
         <button
           onClick={() => setPlaying((p) => !p)}
@@ -286,46 +275,53 @@ function RotatingHeader() {
             </svg>
           )}
         </button>
+
         <div className="flex items-center gap-3">
-          {/* Progress Bar with moving dots */}
           {index === 0 && (
-            <>
-              <div className="flex items-center gap-3 bg-[#f3eafd] rounded-full px-2 py-1">
-                <div className="relative w-14 h-2 bg-[#e1d1fa] rounded-full overflow-hidden">
-                  <div className="absolute left-0 top-0 h-2 bg-[#a97df5] rounded-full transition-all" style={{ width: `${(progress / duration) * 56}px` }} />
-                </div>
-                <div className="w-2 h-2 bg-[#e1d1fa] rounded-full" />
-                <div className="w-2 h-2 bg-[#e1d1fa] rounded-full" />
+            <div className="flex items-center gap-3 bg-[#f3eafd] rounded-full px-2 py-1">
+              {/* bar · dot · dot */}
+              <div className="relative w-14 h-2 bg-[#e1d1fa] rounded-full overflow-hidden">
+                <div
+                  className="absolute left-0 top-0 h-2 bg-[#a97df5] rounded-full transition-all"
+                  style={{ width: `${(progress / duration) * 56}px` }}
+                />
               </div>
-            </>
+              <div className="w-2 h-2 bg-[#e1d1fa] rounded-full" />
+              <div className="w-2 h-2 bg-[#e1d1fa] rounded-full" />
+            </div>
           )}
           {index === 1 && (
-            <>
-              <div className="flex items-center gap-3 bg-[#f3eafd] rounded-full px-2 py-1">
-                <div className="w-2 h-2 bg-[#e1d1fa] rounded-full" />
-                <div className="w-2 h-2 bg-[#e1d1fa] rounded-full" />
-                <div className="relative w-14 h-2 bg-[#e1d1fa] rounded-full overflow-hidden">
-                  <div className="absolute left-0 top-0 h-2 bg-[#a97df5] rounded-full transition-all" style={{ width: `${(progress / duration) * 56}px` }} />
-                </div>
+            <div className="flex items-center gap-3 bg-[#f3eafd] rounded-full px-2 py-1">
+              {/* dot · bar · dot */}
+              <div className="w-2 h-2 bg-[#e1d1fa] rounded-full" />
+              <div className="relative w-14 h-2 bg-[#e1d1fa] rounded-full overflow-hidden">
+                <div
+                  className="absolute left-0 top-0 h-2 bg-[#a97df5] rounded-full transition-all"
+                  style={{ width: `${(progress / duration) * 56}px` }}
+                />
               </div>
-            </>
+              <div className="w-2 h-2 bg-[#e1d1fa] rounded-full" />
+            </div>
           )}
           {index === 2 && (
-            <>
-              <div className="flex items-center gap-3 bg-[#f3eafd] rounded-full px-2 py-1">
-                <div className="w-2 h-2 bg-[#e1d1fa] rounded-full" />
-                <div className="relative w-14 h-2 bg-[#e1d1fa] rounded-full overflow-hidden">
-                  <div className="absolute left-0 top-0 h-2 bg-[#a97df5] rounded-full transition-all" style={{ width: `${(progress / duration) * 56}px` }} />
-                </div>
-                <div className="w-2 h-2 bg-[#e1d1fa] rounded-full" />
+            <div className="flex items-center gap-3 bg-[#f3eafd] rounded-full px-2 py-1">
+              {/* dot · dot · bar */}
+              <div className="w-2 h-2 bg-[#e1d1fa] rounded-full" />
+              <div className="w-2 h-2 bg-[#e1d1fa] rounded-full" />
+              <div className="relative w-14 h-2 bg-[#e1d1fa] rounded-full overflow-hidden">
+                <div
+                  className="absolute left-0 top-0 h-2 bg-[#a97df5] rounded-full transition-all"
+                  style={{ width: `${(progress / duration) * 56}px` }}
+                />
               </div>
-            </>
+            </div>
           )}
         </div>
       </div>
     </div>
   );
 }
+
 
 export default function Content() {
   // Add a state to track if the screen is small
@@ -362,7 +358,7 @@ export default function Content() {
         <div className="font-inter font-semibold text-3xl sm:text-[56px] leading-9 sm:leading-[64px] text-black w-full text-left">AI speed.<br />Human judgment.</div>
         <div className="font-inter text-base sm:text-[22px] font-normal leading-6 sm:leading-[32px] text-black w-full text-left">ADIN pairs expert operators with intelligent agents to handle the heavy lifting of venture workflows. Faster analysis, tighter feedback loops, and more space for high-conviction bets.</div>
       </div>
-      <div className="max-w-[1440px] flex flex-col sm:flex-row gap-6 sm:gap-[48px] mt-8 sm:mt-[64px] items-stretch justify-start w-full">
+      <div className="max-w-[1440px] flex flex-col lg:flex-row gap-6 lg:gap-[48px] mt-8 lg:mt-[64px] items-stretch justify-start w-full">
         {/* Left Card */}
         <div className="bg-white rounded-[32px] sm:rounded-[40px] shadow-[0_4px_32px_0_rgba(0,0,0,0.06)] flex flex-col items-start justify-start w-full sm:w-[548px] min-h-[400px] sm:min-h-[648px] p-6 sm:p-[48px_40px] gap-4">
           <div className="flex flex-col items-start mb-4">
@@ -401,8 +397,8 @@ export default function Content() {
       </div>
 
       {/* Tribute Labs Section - 24px spacing above */}
-      <div className="mt-6 w-full flex flex-col sm:flex-row justify-start items-start gap-4 sm:gap-6">
-        <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 items-center sm:items-start w-full justify-start">
+      <div className="mt-6 w-full flex flex-col lg:flex-row justify-start items-start gap-4 lg:gap-6">
+        <div className="flex flex-col lg:flex-row gap-4 lg:gap-6 items-center lg:items-start w-full justify-start">
           <div className="relative bg-white rounded-[16px] p-4 flex items-center min-w-[180px] sm:min-w-[252px] shadow-[0_2px_8px_0_rgba(0,0,0,0.03)] mx-auto sm:mx-0">
             <div className="absolute inset-0 border border-[#e0e0e0] rounded-[16px] pointer-events-none" />
             <div className="flex flex-row items-center relative z-10">
@@ -490,45 +486,44 @@ export default function Content() {
       <div className="mt-[80px] sm:mt-[160px] mb-[120px] sm:mb-[254px] w-full flex flex-col items-center justify-start gap-6 sm:gap-10">
         <div className="font-inter font-semibold text-3xl sm:text-[56px] leading-9 sm:leading-[64px] text-black text-center w-full max-w-[1120px]">Invest with ADIN.</div>
         <div className="flex flex-col items-center gap-4 sm:gap-8 w-full">
-          {isSmallScreen ? (
-            <div className="flex justify-center w-full">
-              <button className="bg-[#a97df5] border-none rounded-[80px] px-6 py-[14px] flex items-center justify-center cursor-pointer transition-shadow duration-200 shadow-[0_2px_8px_0_rgba(169,125,245,0.10)] hover:shadow-[0_4px_24px_0_rgba(169,125,245,0.18)] font-inter font-medium text-[16px] text-white leading-5 whitespace-pre z-10 relative mx-auto">
+          <div className="relative inline-block mx-auto w-full max-w-[520px]">
+            {/* Desktop: pill with early access text and button */}
+            <div className="hidden sm:flex flex-row items-center gap-4 pl-6 pr-0 py-1 bg-white z-10 relative border border-[#f3eafd] rounded-[32px] transition-all duration-200">
+              {showEarlyAccess && (
+                <span
+                  ref={earlyAccessRef}
+                  className="font-inter font-medium text-[16px] leading-5 bg-clip-text text-transparent text-left whitespace-nowrap overflow-hidden"
+                  style={{
+                    backgroundImage: 'linear-gradient(90deg, #b3b3b3 0%, #a97df5 100%)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    maxWidth: '100%'
+                  }}
+                >
+                  Early access for Tribute Labs Members
+                </span>
+              )}
+              <button className="bg-[#a97df5] border-none rounded-[80px] px-6 py-[14px] flex items-center justify-center cursor-pointer transition-shadow duration-200 shadow-[0_2px_8px_0_rgba(169,125,245,0.10)] hover:shadow-[0_4px_24px_0_rgba(169,125,245,0.18)] font-inter font-medium text-[16px] text-white leading-5 whitespace-pre z-10 relative">
                 Get Started &rarr;
               </button>
             </div>
-          ) : (
-            <div className="relative inline-block mx-auto w-full max-w-[520px]">
-              <div className={`flex flex-row items-center gap-4 pl-6 pr-1 py-1 bg-white z-10 relative border border-[#f3eafd] rounded-[32px] transition-all duration-200`}>
-                {showEarlyAccess && (
-                  <span
-                    ref={earlyAccessRef}
-                    className="font-inter font-medium text-[16px] leading-5 bg-clip-text text-transparent text-left whitespace-nowrap overflow-hidden"
-                    style={{
-                      backgroundImage: 'linear-gradient(90deg, #b3b3b3 0%, #a97df5 100%)',
-                      WebkitBackgroundClip: 'text',
-                      WebkitTextFillColor: 'transparent',
-                      maxWidth: '100%'
-                    }}
-                  >
-                    Early access for Tribute Labs Members
-                  </span>
-                )}
-                <button className="bg-[#a97df5] border-none rounded-[80px] px-6 py-[14px] flex items-center justify-center cursor-pointer transition-shadow duration-200 shadow-[0_2px_8px_0_rgba(169,125,245,0.10)] hover:shadow-[0_4px_24px_0_rgba(169,125,245,0.18)] font-inter font-medium text-[16px] text-white leading-5 whitespace-pre z-10 relative">
-                  Get Started &rarr;
-                </button>
-              </div>
-              <div className="pointer-events-none absolute inset-0 border border-[#f3eafd] border-solid rounded-[32px]" />
+            {/* Mobile: only show button, centered, no pill or early access text */}
+            <div className="flex sm:hidden justify-center w-full">
+              <button className="bg-[#a97df5] border-none rounded-[80px] px-6 py-[14px] flex items-center justify-center cursor-pointer transition-shadow duration-200 shadow-[0_2px_8px_0_rgba(169,125,245,0.10)] hover:shadow-[0_4px_24px_0_rgba(169,125,245,0.18)] font-inter font-medium text-[16px] text-white leading-5 whitespace-pre z-10 relative">
+                Get Started &rarr;
+              </button>
             </div>
-          )}
+            {/* Outline border only on desktop */}
+            <div className="pointer-events-none absolute inset-0 border border-[#f3eafd] border-solid rounded-[32px] hidden sm:block" />
+          </div>
           <div className="font-inter text-[15px] sm:text-[17px] font-normal leading-6 text-[#a97df5] flex items-center justify-center gap-1 w-full mt-2">
             <span className="text-[#b3b3b3]">Not a Tribute Labs Member?</span>
             <a href="#" className="text-[#a97df5] font-medium ml-2 no-underline cursor-pointer">Join the Waitlist &rarr;</a>
           </div>
         </div>
       </div>
-      {/* Gradient peek behind footer */}
       <div
-        className="pointer-events-none absolute left-1/2 -translate-x-1/2 -bottom-20 w-[1794px] h-[190px] filter blur-[68.6px] -scale-x-100 -scale-y-100 z-0"
+        className="pointer-events-none absolute left-1/2 -translate-x-1/2 w-[1794px] h-[190px] filter blur-[68.6px] -scale-x-100 -scale-y-100 z-0 hidden sm:block -bottom-20"
         aria-hidden="true"
         style={{
           background: `
